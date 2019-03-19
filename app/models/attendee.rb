@@ -1,4 +1,40 @@
 class Attendee
+  attr_accessor :name, :age
+
+  @@all = []
+
+  def initialize(name, age)
+    @name = name
+    @age = age
+
+
+    @@all << self
+  end
+
+  def self.all
+    @@all
+  end
+
+  def tickets
+    Ticket.all.select do |ticket|
+      ticket.attendee == self
+    end
+  end
+
+  def events
+    self.tickets.map do |ticket|
+      ticket.event
+    end
+  end
+
+  def money_spent
+    ###sum of all ticket prices
+    self.events.inject(0) do |sum, event|
+      sum + event.ticket_price
+    end
+  end
+
+
 end
 
 # Attendee.all
